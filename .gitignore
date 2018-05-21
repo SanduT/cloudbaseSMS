@@ -1,0 +1,10 @@
+.gitignore
+venv
+.idea
+*.egg*
+*.log
+*.mo
+*.pyc
+*.swo
+*.swp
+*.sqlite
