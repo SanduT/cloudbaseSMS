@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 import pika
 
+
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
+data = 0
 
 
 channel.queue_declare(queue='net_io_counters')
 
 def callback(ch, method, properties, body):
-    print(" [x] Received %r" % body)
+    data = body
 
 channel.basic_consume(callback,
                       queue='net_io_counters',
