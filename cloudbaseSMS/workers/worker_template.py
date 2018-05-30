@@ -23,6 +23,5 @@ def start_worker(module,function,interval1,**params):
                       body=str(func(**params)))
 
     set_interval(send_info, interval1)
-    connection.close()
 
 

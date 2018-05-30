@@ -26,11 +26,18 @@ This will create a RabbitMQ queue with the same name as the worker wich will sen
 You can add as many workers you want.
 All parameters should be set under [<section_name>_PARAMS] section of the config file.
 
-Run with:
+Install with:
 ```
-python main.py
+sudo python setyp.py install
 
 ```
+
+Run with:
+```
+smspls -c <config_path>
+
+```
+
 This will start all the worker processes.
 
 2.Check queues for data.
