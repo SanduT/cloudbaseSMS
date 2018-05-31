@@ -1,3 +1,7 @@
+"""
+    run to setup module, use with smspls -c <config_path> (optional, sample config will be used)
+    sample config in project
+"""
 from setuptools import setup
 
 setup(
@@ -8,7 +12,8 @@ setup(
     description="""
 Cloudbase assignment
 """,
-    packages=['cloudbaseSMS', 'cloudbaseSMS.consumers','cloudbaseSMS.workers','cloudbaseSMS.runnables','cloudbaseSMS.cmd'],
+    packages=['cloudbaseSMS', 'cloudbaseSMS.consumers',
+              'cloudbaseSMS.workers', 'cloudbaseSMS.runnables', 'cloudbaseSMS.cmd'],
     install_requires=['pika', 'configparser', 'influxdb'],
     entry_points={
         'console_scripts': [
