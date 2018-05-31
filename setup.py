@@ -9,7 +9,7 @@ setup(
 Cloudbase assignment
 """,
     packages=['cloudbaseSMS', 'cloudbaseSMS.consumers','cloudbaseSMS.workers','cloudbaseSMS.runnables','cloudbaseSMS.cmd'],
-    install_requires=['pika', 'configparser'],
+    install_requires=['pika', 'configparser', 'influxdb'],
     entry_points={
         'console_scripts': [
             'smspls = cloudbaseSMS.cmd.start:main',

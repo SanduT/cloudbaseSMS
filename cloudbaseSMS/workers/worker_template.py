@@ -14,7 +14,6 @@ def start_worker(module,function,interval1,**params):
     func = getattr(module, function)
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
-    print (params);
     channel.queue_declare(queue=function)
 
     def send_info():

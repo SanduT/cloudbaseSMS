@@ -1,39 +1,15 @@
 #!/usr/bin/env python
-import pika
 
-connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
-channel = connection.channel()
-from influxdb import InfluxDBClient
-from datetime import datetime
+from cloudbaseSMS.consumers.influxDbDriver import write as driver
 
 
-client = InfluxDBClient('localhost', 8086, 'root', 'root', 'smsMetrics2')
-client.create_database('smsMetrics2')
-channel.queue_declare(queue='virtual_memory')
-
-def printto(ch, method, properties, body):
-    print (dict(body))
-
-def write_to_db(ch, method, properties, body):
-    print(body)
-    client.write_points([
-    {
-        "measurement": 'virtual_memory',
-        "tags": {
-            "host": "server01",
-            "region": "us-west"
-        },
-        "time": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-        "fields": {
-            "value": float(body)
-        }
-    }
-    ])
-
-
-channel.basic_consume(printto,
-                      queue='virtual_memory',
+def write(moduleName,queueName,client,channel):
+    def write_to_db(ch, method, properties, body):
+        driver(body,client,moduleName)
+    print(queueName)
+    channel.queue_declare(queue=queueName)
+    channel.basic_consume(write_to_db,
+                      queue=queueName,
                       no_ack=True)
-
-print(' [*] Waiting for messages. To exit press CTRL+C')
-channel.start_consuming()
+    print('started consuming')
+    channel.start_consuming()
