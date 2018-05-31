@@ -31,6 +31,9 @@ Install with:
 sudo python setyp.py install
 
 ```
+External dependencies:
+
+influxDB
 
 Run with:
 ```
