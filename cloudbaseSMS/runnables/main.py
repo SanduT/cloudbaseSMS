@@ -7,7 +7,7 @@
 from multiprocessing import Process
 from cloudbaseSMS.workers import worker_template as worker
 from cloudbaseSMS.consumers import db_writer_template as dbWriter
-
+from cloudbaseSMS.api import start_routes
 
 def run(config):
     """Start processes based on config structure passes in module function and parameters to
@@ -25,5 +25,6 @@ def run(config):
                                                 for item in config.items(section+'_PARAMS')})))
             read_metric.start()
             consumer = Process(target=dbWriter.write,
-                               args=(config[section], config[section]['worker'], config))
+                               args=(section, config[section]['worker'], config))
             consumer.start()
+    start_routes.start(config)

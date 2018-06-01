@@ -1,0 +1,5 @@
+flask
+influxdb==5.0.0
+pika==0.11.2
+configparser==3.5.0
+multiprocessing==2.6.2.1

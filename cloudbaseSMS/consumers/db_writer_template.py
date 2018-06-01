@@ -14,7 +14,7 @@ def write(sectionName, queueName, CONF):
     :param CONF: A conf file for credentials hosts and such
     :return:
     """
-    def write_to_db(body):
+    def write_to_db(ch, method, properties, body):
         """A helper function that writes to db thorugh a driver.
         :param body:
         :return:
