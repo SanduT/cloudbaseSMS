@@ -3,7 +3,9 @@
     queue and adds metrics to the db.
 """
 import pika
-from cloudbaseSMS.consumers.influxDbDriver import write as driver
+import logging
+from cloudbaseSMS.drivers.influxDB import influxDbDriver as driver
+logging.basicConfig(filename='smspls.log', level=logging.INFO)
 
 
 def write(sectionName, queueName, CONF):
@@ -19,11 +21,12 @@ def write(sectionName, queueName, CONF):
         :param body:
         :return:
         """
-        driver(body, sectionName, CONF)
+        driver.write(body, sectionName, CONF)
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=CONF['AMQP']['host']))
     channel = connection.channel()
     channel.queue_declare(queue=queueName)
     channel.basic_consume(write_to_db,
                           queue=queueName,
                           no_ack=True)
+    logging.info('Consumer ' + sectionName + ' started successfully')
     channel.start_consuming()

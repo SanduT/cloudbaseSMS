@@ -8,6 +8,9 @@ It contains of a .ini config file where you specify the module and worker(method
 
 Based on the config file it creates workers that extract data on given intervals of time and adds them to a RabbitMQ queue.
 
+The information from the queue gets added to a DB (project includes drivers for influxdb)
+
+As well an API is created for the enpoints specified in the .ini file
 
 ## Usage
 1.Add your desired metrics collector function in the config.ini file, example:
@@ -15,10 +18,10 @@ Based on the config file it creates workers that extract data on given intervals
 [CPU_PERCENTAGE]
 module=psutil
 worker=cpu_percent
-interval=2
+interval=0.05
 API_ENDPOINT=/cpu
 [CPU_PERCENTAGE_PARAMS]
-interval = 2
+interval = 0.05
 percpu = 1
 
 ```
@@ -31,23 +34,26 @@ Install with:
 sudo python setyp.py install
 
 ```
-External dependencies:
 
-influxDB
+External dependencies: (if included drivers are used)
+
+```
+sudo apt-get update && sudo apt-get install influxdb
+
+```
 
 Run with:
 ```
-smspls -c <config_path>
+smspls -c <config_path>(optional-by default the one from the project folder is being used)
 
 ```
 
-This will start all the worker processes.
+This will:
+1.Start all the worker processes.
 
-2.Check queues for data.
+2.Insert data from queues to influxdb.
 
-3.???
-
-4.$$profit
+3.Create API endpoints to be used for retrieving data. (note: to queue an endpoint ex: /cpu you can use cpu/2 to retrieve data from the past 2 hours till now)
 
 ## Author
 

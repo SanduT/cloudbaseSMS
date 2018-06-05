@@ -7,13 +7,13 @@ from setuptools import setup
 setup(
     pbr=True,
     name="cloudbaseSMS",
-    version="0.0.2",
+    version="1.0.1",
     author="Tudor Sandu",
     description="""
 Cloudbase assignment
 """,
     packages=['cloudbaseSMS', 'cloudbaseSMS.consumers',
-              'cloudbaseSMS.workers', 'cloudbaseSMS.runnables', 'cloudbaseSMS.cmd', 'cloudbaseSMS.api'],
+              'cloudbaseSMS.workers', 'cloudbaseSMS.runnables', 'cloudbaseSMS.cmd', 'cloudbaseSMS.api','cloudbaseSMS.drivers','cloudbaseSMS.drivers.influxDB'],
     install_requires=['pika', 'configparser', 'influxdb', 'multiprocessing', 'flask'],
     entry_points={
         'console_scripts': [

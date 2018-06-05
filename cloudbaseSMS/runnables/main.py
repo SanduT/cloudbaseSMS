@@ -7,11 +7,11 @@
 from multiprocessing import Process
 from cloudbaseSMS.workers import worker_template as worker
 from cloudbaseSMS.consumers import db_writer_template as dbWriter
-from cloudbaseSMS.api import start_routes
+from cloudbaseSMS.api import db_reader_template
 
 def run(config):
     """Start processes based on config structure passes in module function and parameters to
-    workers and section name and functio name to the consumers.
+    workers and section name and function name to the consumers.
 
     :param config: the general config read in the cmd.start -c flag
     :return:
@@ -27,4 +27,4 @@ def run(config):
             consumer = Process(target=dbWriter.write,
                                args=(section, config[section]['worker'], config))
             consumer.start()
-    start_routes.start(config)
+    db_reader_template.start(config)

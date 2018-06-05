@@ -25,3 +25,17 @@ def write(body, sectionName, CONF):
             }
         }
     ])
+
+
+def read(section, CONF, time):
+    """Reads from influx return query as string
+    :param section: name of the db table
+    :param CONF: config file for setting influx credentials and such
+    :param time: time to query from db
+    :return:
+    """
+    client = InfluxDBClient(CONF['INFLUXDB']['host'], CONF['INFLUXDB']['port'],
+                            CONF['INFLUXDB']['username'], CONF['INFLUXDB']['password'],
+                            'smsMetrics')
+    query = "SELECT \"value\" FROM \"smsMetrics\".\"autogen\".\""+section+"\" WHERE time >now()-"+time+"h"
+    return str(client.query(query))

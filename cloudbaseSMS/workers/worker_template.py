@@ -2,6 +2,8 @@
 from a given module and function to a AMQP queue"""
 import threading
 import pika
+import logging
+logging.basicConfig(filename='smspls.log', level=logging.INFO)
 
 
 def set_interval(func, time):
@@ -30,8 +32,12 @@ def start_worker(module, function, call_interval, CONF, **params):
     connection = pika.BlockingConnection(pika.ConnectionParameters(host=CONF['AMQP']['host']))
     channel = connection.channel()
     channel.queue_declare(queue=function)
+    logging.info('Worker ' + function + ' started successfully')
 
     def send_info():
+        """Starts publishing metric information to queue
+        :return:
+        """
         channel.basic_publish(exchange='', routing_key=function, body=str(func(**params)))
 
     set_interval(send_info, call_interval)
